@@ -1,0 +1,80 @@
+Prueba de los sensores Max30100 y MLX90614
+
+1. Clonar el repositorio correspondiente
+
+-MLX90614 https://github.com/codigo-iot/MLX-90614-TallerIoT
+
+-Agregar biblioteca Adafruit MLX90614 Library
+
+-Cargar el programa en la ruta 
+MLX-90614-TallerIoT/ESP32CAM/MLX90614-ESP32CAM-MQTT-I2C/MLX90614-ESP32CAM-MQTT-I2C.ino
+
+-Max30100 https://github.com/codigo-iot/Max30100-MQTT-ESP32CAM
+
+-Agregar biblioteca SparkFun MAX3010x Pulse and Proximity Sensor Library
+
+-Cargar el programa en la ruta Max30100-MQTT-ESP32CAM/ESP32CAM/ESP32CAM-MAX30100/ESP32CAM-MAX30100.ino 
+
+-Modificar nombre de red, contraseña, ip del broker local o publico y tema en le que se va a publicar
+
+2. Realizar el circuito correspondiente
+	-La tabla de conexiones viene descrita en el encabezado de cada programa.
+	
+3. Abrir el monitor serial. Deberán verse las lecturas del sensor
+
+4. El flow es opcional
+
+Para quienes tienen dañado o faltante el ESP32CAM o el FTDI, el procedimiento se realizará con Raspberry Pi
+
+1. Actualizar Raspberry Pi
+	- sudo apt-get update
+	- sudo apt-get upgrade
+
+2. Activar el I2C
+	-sudo raspi-config
+	-3 Interfaces
+	-5 Activar I2C
+	-Finish
+	-Reiniciar sudo reboot
+
+3. Comprobar python y pip. Verificar que esten instalados. Para ello, nos debe arrojar alguna version.
+	-python --version
+	-pip --version
+	
+4. Instalar la biblioteca del sensor mlx90614. La documentación de dicha biblioteca se encuentra en el enlace https://pypi.org/project/PyMLX90614/ Para instalar la biblioteca se requiere unicamente el siguiente comando
+	-pip install pyMLX90614
+	
+5. Conexion del circuito
+
+Sensor MLX90614		T-Clobber (Adaptador RPi)
+5V----------------------5VO
+GND---------------------GND
+SDA---------------------SDA1
+SCL---------------------SCL1
+
+6. Crear un archivo llamado i2cread.py que contega el siguiente código
+
+from smbus2 import SMBus
+from mlx90614 import MLX90614
+
+bus = SMBus(1)
+sensor = MLX90614(bus, address=0x5A)
+print sensor.get_amb_temp()
+print sensor.get_obj_temp()
+bus.close()
+
+7. Correr el codigo de python
+	-python i2cread.py
+	
+Para el MAX30100, seguir el siguiente tutorial
+https://github.com/vrano714/max30102-tutorial-raspberrypi
+
+Alternativamente pueden seguir los talleres con Java:
+
+-Max30100
+https://edu.codigoiot.com/course/view.php?id=805
+
+-MLX90614
+https://edu.codigoiot.com/course/view.php?id=861
+Nota:
+No estoy hablando, solo les escribo las instrucciones
