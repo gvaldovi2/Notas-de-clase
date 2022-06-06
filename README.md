@@ -1,2 +1,2 @@
 # Notas-de-clase
-En este repositorio coloco las notas de las clases que imparto
+En este repositorio se colocan todas las notas de las clases que imparte Hugo
